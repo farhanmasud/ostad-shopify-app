@@ -1,4 +1,4 @@
-# Django + Tailwind Starter Template
+# Django Shopify App Starter Kit
 
 > :hourglass_flowing_sand: Under development
 
@@ -14,3 +14,7 @@ Getting started -
 8. Install tailwind dependencies with `python manage.py tailwind install`
 9. Run migrations with `python manage.py migrate`
 10. Collect static `python manage.py collectstatic --no-input`
+11. Run the server using `python manage.py runserver`
+12. Run ngrok on port 8000
+13. Update your app URL on Shopify Partner Account > Your app with your ngrok URL and whitelist your-ngrok-url/auth/finalize
+14. Install app on your Shopify development store

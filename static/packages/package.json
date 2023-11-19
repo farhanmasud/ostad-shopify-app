@@ -1,0 +1,20 @@
+{
+  "name": "packages",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "snowpack build",
+    "start": "snowpack dev"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hotwired/turbo": "^7.3.0",
+    "@shopify/app-bridge": "^3.7.9"
+  },
+  "devDependencies": {
+    "snowpack": "^3.8.8"
+  }
+}

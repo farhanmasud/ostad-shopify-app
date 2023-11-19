@@ -21,3 +21,5 @@ MIDDLEWARE += [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+
+SECURE_SSL_REDIRECT = not DEBUG

@@ -50,10 +50,12 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     "tailwind",
     "theme",
+    "shopify_auth",
 ]
 
 LOCAL_APPS = [
     "accounts.apps.AccountsConfig",
+    "core.apps.CoreConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -65,8 +67,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "shopify_auth.session_tokens.middleware.SessionTokensAuthMiddleware",  # This middleware has to be after django.contrib.auth.middleware.AuthenticationMiddleware.
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -84,6 +87,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "shopify_auth.session_tokens.context_processors.shopify_auth",
             ],
         },
     },
@@ -172,3 +176,37 @@ TAILWIND_APP_NAME = "theme"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+
+# Configure Shopify Application settings
+SHOPIFY_APP_NAME = env("SHOPIFY_APP_NAME")
+SHOPIFY_APP_API_KEY = env("SHOPIFY_APP_API_KEY")
+SHOPIFY_APP_API_SECRET = env("SHOPIFY_APP_API_SECRET")
+SHOPIFY_APP_API_SCOPE = [
+    "read_products",
+    "read_orders",
+    "write_orders",
+    "read_locations",
+    "read_fulfillments",
+    "write_fulfillments",
+]
+SHOPIFY_APP_API_VERSION = "unstable"
+SHOPIFY_APP_IS_EMBEDDED = True
+SHOPIFY_APP_DEV_MODE = False
+SHOPIFY_APP_TEST_CHARGE = True
+BILLING_REDIRECT_URL = "core:home"
+
+
+# Set the login redirect URL to the "home" page for your app (where to go after logging on).
+LOGIN_URL = "/"
+LOGIN_REDIRECT_URL = "/"
+
+
+# Set secure proxy header to allow proper detection of secure URLs behind a proxy.
+# This ensures that correct 'https' URLs are generated when our Django app is running behind a proxy like nginx, or is
+# being tunneled (by ngrok, for example).
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")

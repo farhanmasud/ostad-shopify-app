@@ -22,3 +22,6 @@ try:
     )
 except:
     pass
+
+
+SECURE_SSL_REDIRECT = not DEBUG

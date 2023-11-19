@@ -1,0 +1,25 @@
+{% load static %}
+{% load static tailwind_tags %}
+
+<html>
+<head>
+    <title>Wishlist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+
+    {{ data|json_script:"shopify-app-init" }}
+    <script type="module" src="{% static 'packages/build/index.js' %}"></script>
+</head>
+<body>
+    <div class="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="py-4 text-base">
+            <a href="{% url 'core:home' %}" class="pr-4">Home</a>
+            <a href="{% url 'core:products' %}" class="pr-4">Products</a>
+        </div>
+
+        <div class="py-10">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
