@@ -12,7 +12,7 @@ Starter kit for Shopify App development with Django
 - Developer tools -
     - [pip-tools](https://github.com/jazzband/pip-tools) for package management
     - [Black](https://github.com/psf/black) and [pylint](https://github.com/pylint-dev/pylint) for code formatting and linting
-    - Bash scripts for quickly setting up the development environment
+    - Bash scripts for quickly setting up the development environment (Currently tested on Ubuntu 22.04 only)
 
 Getting started -
 
@@ -25,8 +25,8 @@ Getting started -
 7. Activate virtual environment with `source venv/bin/activate`
 8. Install tailwind dependencies with `python manage.py tailwind install`
 9. Run migrations with `python manage.py migrate`
-10. Navigate to `static/packages/` directory form your terminal and run `npm run build`
-11. Collect static `python manage.py collectstatic --no-input`
+10. Navigate to `static/packages/` directory form your terminal and run `npm install` and `npm run build`
+11. Go back to root directory of the project in the terminal and collect static files using `python manage.py collectstatic --no-input`
 12. Run the server using `python manage.py runserver`
 13. Run ngrok on port 8000
 14. Update your app URL on Shopify Partner Account > Your app with your ngrok URL and whitelist `your-ngrok-url/auth/finalize`
