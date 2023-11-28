@@ -1,9 +1,6 @@
-# Django Shopify App Starter Kit
+# Ostad Shopify App Assignment 1
 
-> :hourglass_flowing_sand: Under development
-
-Starter kit for Shopify App development with Django
-- Uses Django Server Side Rendering approach with the help of [Turbo](https://github.com/hotwired/turbo)
+- Uses [Django](https://www.djangoproject.com/) Server Side Rendering approach with the help of [Turbo](https://github.com/hotwired/turbo)
 - Uses a [fork](https://github.com/farhanmasud/django-shopify-auth) of [django-shopify-auth](https://github.com/discolabs/django-shopify-auth) with updated [Shopify App Bridge](https://shopify.dev/docs/api/app-bridge) and [Turbo](https://github.com/hotwired/turbo) versions for authentication using sessions
 - Takes influence directly from [django-session-token-auth-demo](https://github.com/digismoothie/django-session-token-auth-demo) with a different code structure and tooling
 - Uses code structure from [django-tailwind-starter-template](https://github.com/farhanmasud/django-tailwind-starter-template)
@@ -13,6 +10,16 @@ Starter kit for Shopify App development with Django
     - [pip-tools](https://github.com/jazzband/pip-tools) for package management
     - [Black](https://github.com/psf/black) and [pylint](https://github.com/pylint-dev/pylint) for code formatting and linting
     - Bash scripts for quickly setting up the development environment (Currently tested on Ubuntu 22.04 only)
+
+Features and Routes -
+
+1. `/shop/`
+2. `/collections/`
+3. `/collections/create/`
+4. `/collections/<collection_id>/`
+5. `/collections/<collection_id>/edit/`
+6. `/collections/<collection_id>/create-product/`
+7. `/collections/<collection_id>/<product_id>/edit/`
 
 Getting started -
 
@@ -32,4 +39,3 @@ Getting started -
 14. Update your app URL on Shopify Partner Account > Your app with your ngrok URL and whitelist `your-ngrok-url/auth/finalize`
 15. Install app on your Shopify development store
 
-> :hourglass_flowing_sand: Full documentation coming soon.
