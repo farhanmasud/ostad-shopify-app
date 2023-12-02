@@ -193,6 +193,7 @@ SHOPIFY_APP_API_SCOPE = [
     "read_locations",
     "read_fulfillments",
     "write_fulfillments",
+    "read_product_listings",
 ]
 SHOPIFY_APP_API_VERSION = "unstable"
 SHOPIFY_APP_IS_EMBEDDED = True

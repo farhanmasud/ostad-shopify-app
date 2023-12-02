@@ -15,9 +15,10 @@
         <div class="py-4 text-base">
             <a href="{% url 'core:home' %}" class="pr-4">Home</a>
             <a href="{% url 'core:products' %}" class="pr-4">Products</a>
+            <a href="{% url 'core:collections_list' %}" class="pr-4">Collections</a>
         </div>
 
-        <div class="py-10">
+        <div class="py-5">
             {% block content %}{% endblock %}
         </div>
     </div>

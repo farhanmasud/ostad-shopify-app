@@ -1,0 +1,82 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <main>
+        <div class="max-w-l mt-2 mb-5">
+            <div class="">
+                <h2 class="uppercase mb-4 font-medium">Custom Collections</h2>
+            
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Description
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-right">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for collection in custom_collections %}
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {{ collection.title }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ collection.body_html|safe }}
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase">Edit</a>
+                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase ml-2">Products</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-4">
+                <h2 class="uppercase mb-4 font-medium">Smart Collections</h2>
+            
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Description
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-right">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for collection in smart_collections %}
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {{ collection.title }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ collection.body_html|safe}}
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase">Edit</a>
+                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase ml-2">Products</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

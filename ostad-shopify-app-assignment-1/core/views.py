@@ -78,3 +78,19 @@ class ProductsView(LoginRequiredMixin, generic.TemplateView):
         with request.user.session:
             products = shopify.Product.find(limit=10)
         return self.render_to_response({"products": products})
+
+
+class CollectionsListView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "core/collections_list.html"
+
+    def get(self, request):
+        with request.user.session:
+            custom_collections = shopify.CustomCollection.find()
+            smart_collections = shopify.SmartCollection.find()
+
+        context = {
+            "custom_collections": [collection.to_dict() for collection in custom_collections],
+            "smart_collections": [collection.to_dict() for collection in smart_collections],
+        }
+
+        return self.render_to_response(context)
