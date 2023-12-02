@@ -4,7 +4,10 @@
     <main>
         <div class="max-w-l mt-2 mb-5">
             <div class="">
-                <h2 class="uppercase mb-4 ml-2 font-medium">Custom Collections</h2>
+                <div class="mb-2 ml-2 font-medium flex justify-between">
+                    <span class="uppercase my-auto">Custom Collections</span>
+                    <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-white hover:text-gray-100 focus:outline-none bg-gray-900 rounded-lg border border-gray-200 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-white">Create New Custom Collection</a>
+                </div>
             
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500">
@@ -31,8 +34,8 @@
                                         {{ collection.body_html|safe }}
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase">Edit</a>
-                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase ml-4">Products</a>
+                                        <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-gray-900 hover:text-gray-800 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-300 focus:z-10 focus:ring-4 focus:ring-white">Edit</a>
+                                        <a href="#" class="py-2 px-2 me-2 mb-2 ml-2 text-sm font-medium text-gray-900 hover:text-gray-800 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-300 focus:z-10 focus:ring-4 focus:ring-white">Products</a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -41,7 +44,10 @@
                 </div>
             </div>
             <div class="mt-5 pt-2">
-                <h2 class="uppercase mb-4 ml-2 font-medium">Smart Collections</h2>
+                <div class="mb-2 ml-2 font-medium flex justify-between">
+                    <span class="uppercase my-auto">Smart Collections</span>
+                    <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-white hover:text-gray-100 focus:outline-none bg-gray-900 rounded-lg border border-gray-200 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-white">Create New Smart Collection</a>
+                </div>
             
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left text-gray-500">
@@ -68,8 +74,8 @@
                                         {{ collection.body_html|safe}}
                                     </td>
                                     <td class="px-6 py-4 text-right">
-                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase">Edit</a>
-                                        <a href="#" class="font-medium text-blue-600 hover:underline uppercase ml-4">Products</a>
+                                        <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-gray-900 hover:text-gray-800 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-300 focus:z-10 focus:ring-4 focus:ring-white">Edit</a>
+                                        <a href="#" class="py-2 px-2 me-2 mb-2 ml-2 text-sm font-medium text-gray-900 hover:text-gray-800 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-300 focus:z-10 focus:ring-4 focus:ring-white">Products</a>
                                     </td>
                                 </tr>
                             {% endfor %}

@@ -67,7 +67,10 @@ class HomeView(LoginRequiredMixin, generic.TemplateView):
             except UnauthorizedAccess as e:
                 user_email = str(e)
 
-            context = {"user_email": user_email}
+            context = {
+                "user_email": user_email,
+                "menu_link": "home",
+            }
         return self.render_to_response(context)
 
 
@@ -81,7 +84,10 @@ class ShopView(LoginRequiredMixin, generic.TemplateView):
             except UnauthorizedAccess as e:
                 shopify_shop = str(e)
 
-            context = {"shopify_shop": shopify_shop}
+            context = {
+                "shopify_shop": shopify_shop,
+                "menu_link": "shop",
+            }
         return self.render_to_response(context)
 
 
@@ -100,6 +106,7 @@ class CollectionsListView(LoginRequiredMixin, generic.TemplateView):
             "smart_collections": [
                 collection.to_dict() for collection in smart_collections
             ],
+            "menu_link": "collections",
         }
 
         return self.render_to_response(context)

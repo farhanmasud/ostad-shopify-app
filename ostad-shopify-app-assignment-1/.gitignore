@@ -1,0 +1,10 @@
+venv/
+__pycache__/
+*.pyc
+requirements/*.txt
+*.env
+media/
+staticfiles/
+theme/static_src/node_modules
+static/packages/node_modules
+static/packages/build

@@ -14,9 +14,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mx-auto shadow-md sm:rounded-lg bg-white">
             <div class="py-4 px-4 sm:px-6 lg:px-8 text-base font-medium uppercase">
-                <a href="{% url 'core:home' %}" class="pr-8 hover:underline">Home</a>
-                <a href="{% url 'core:shop' %}" class="pr-8 hover:underline">Shop</a>
-                <a href="{% url 'core:collections_list' %}" class="pr-8 hover:underline">Collections</a>
+                <a href="{% url 'core:home' %}" class="pr-8 {% if menu_link == 'home' %} text-gray-500 {% endif %} hover:underline">Home</a>
+                <a href="{% url 'core:shop' %}" class="pr-8 {% if menu_link == 'shop' %} text-gray-500 {% endif %} hover:underline">Shop</a>
+                <a href="{% url 'core:collections_list' %}" class="pr-8 {% if menu_link == 'collections' %} text-gray-500 {% endif %} hover:underline">Collections</a>
             </div>
         </div>
     </div>
