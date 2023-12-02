@@ -8,3 +8,5 @@ django-tailwind==3.5.*
 git+https://github.com/farhanmasud/django-shopify-auth.git
 ShopifyAPI==12.3.0
 ua-parser==0.18.0
+django-crispy-forms==2.1
+crispy-tailwind==0.5.0

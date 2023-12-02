@@ -51,6 +51,8 @@ THIRD_PARTY_APPS = [
     "tailwind",
     "theme",
     "shopify_auth",
+    "crispy_forms",
+    "crispy_tailwind",
 ]
 
 LOCAL_APPS = [
@@ -65,7 +67,7 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "shopify_auth.session_tokens.middleware.SessionTokensAuthMiddleware",  # This middleware has to be after django.contrib.auth.middleware.AuthenticationMiddleware.
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -188,6 +190,7 @@ SHOPIFY_APP_API_KEY = env("SHOPIFY_APP_API_KEY")
 SHOPIFY_APP_API_SECRET = env("SHOPIFY_APP_API_SECRET")
 SHOPIFY_APP_API_SCOPE = [
     "read_products",
+    "write_products",
     "read_orders",
     "write_orders",
     "read_locations",
@@ -211,3 +214,7 @@ LOGIN_REDIRECT_URL = "/"
 # This ensures that correct 'https' URLs are generated when our Django app is running behind a proxy like nginx, or is
 # being tunneled (by ngrok, for example).
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+# crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"

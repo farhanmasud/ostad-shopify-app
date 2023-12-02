@@ -3,12 +3,16 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.signals import user_logged_in
+from django.contrib import messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
-from django.views.generic import TemplateView, View
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, View, FormView
 from pyactiveresource.connection import UnauthorizedAccess
 from shopify_auth.session_tokens.views import get_scope_permission
 from accounts.models import Account
+from .forms import CollectionCreateForm
+from .utils import show_error_message_and_redirect
 
 
 class SplashPageView(View):
@@ -131,3 +135,36 @@ class CollectionProuctsListView(LoginRequiredMixin, TemplateView):
         }
 
         return self.render_to_response(context)
+
+
+class CollectionCreateView(LoginRequiredMixin, FormView):
+    template_name = "core/collection_create.html"
+    form_class = CollectionCreateForm
+    success_url = reverse_lazy("core:collections_list")
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Please correct the erros")
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def post(self, request):
+        form = self.get_form()
+        if form.is_valid():
+            with request.user.session:
+                try:
+                    shopify.CustomCollection.create(
+                        {
+                            "title": form.cleaned_data["title"],
+                            "body_html": form.cleaned_data["description"],
+                        }
+                    )
+                except Exception as e:
+                    print(str(e))
+                    show_error_message_and_redirect(
+                        request,
+                        "Clouldn't connect to Shopify API",
+                        "core:collections_list",
+                    )
+            messages.success(request, "Collection added successfully!")
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

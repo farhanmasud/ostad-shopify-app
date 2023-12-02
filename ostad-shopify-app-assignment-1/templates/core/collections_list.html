@@ -6,7 +6,7 @@
             <div class="">
                 <div class="mb-2 ml-2 font-medium flex justify-between">
                     <span class="uppercase my-auto">Custom Collections</span>
-                    <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-white hover:text-gray-100 focus:outline-none bg-gray-900 rounded-lg border border-gray-200 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-white">Create New Custom Collection</a>
+                    <a href="{% url 'core:collection_create' %}" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-white hover:text-gray-100 focus:outline-none bg-gray-900 rounded-lg border border-gray-200 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-white">Create New Custom Collection</a>
                 </div>
             
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -46,7 +46,6 @@
             <div class="mt-5 pt-2">
                 <div class="mb-2 ml-2 font-medium flex justify-between">
                     <span class="uppercase my-auto">Smart Collections</span>
-                    <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-white hover:text-gray-100 focus:outline-none bg-gray-900 rounded-lg border border-gray-200 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-white">Create New Smart Collection</a>
                 </div>
             
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">

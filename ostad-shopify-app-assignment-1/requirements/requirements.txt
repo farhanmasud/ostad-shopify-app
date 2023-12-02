@@ -10,14 +10,21 @@ asgiref==3.7.2
     #   django-browser-reload
 certifi==2023.11.17
     # via sentry-sdk
+crispy-tailwind==0.5.0
+    # via -r requirements/requirements.in
 django==4.2.7
     # via
     #   -r requirements/requirements.in
     #   django-browser-reload
+    #   django-crispy-forms
     #   django-shopify-auth
     #   django-tailwind
 django-browser-reload==1.12.1
     # via django-tailwind
+django-crispy-forms==2.1
+    # via
+    #   -r requirements/requirements.in
+    #   crispy-tailwind
 django-environ==0.10.0
     # via -r requirements/requirements.in
 django-shopify-auth @ git+https://github.com/farhanmasud/django-shopify-auth.git

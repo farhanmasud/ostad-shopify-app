@@ -21,6 +21,16 @@
         </div>
     </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {% if messages %}
+        <div class="py-2">
+            {% for message in messages %}
+                <div class="p-4 mb-4 text-sm {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} text-red-900 bg-red-100 {% else %} text-green-900 bg-green-100 {% endif %} rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
         
         <div class="py-5">
             {% block content %}{% endblock %}
