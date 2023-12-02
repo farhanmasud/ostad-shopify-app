@@ -7,6 +7,6 @@ app_name = "wishlist"
 urlpatterns = [
     path("", views.SplashPageView.as_view(), name="splash"),
     path("home/", views.HomeView.as_view(), name="home"),
-    path("products/", views.ProductsView.as_view(), name="products"),
+    path("shop/", views.ShopView.as_view(), name="shop"),
     path("collections/", views.CollectionsListView.as_view(), name="collections_list"),
 ]

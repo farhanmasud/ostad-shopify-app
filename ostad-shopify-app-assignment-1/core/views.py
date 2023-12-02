@@ -60,24 +60,29 @@ class HomeView(LoginRequiredMixin, generic.TemplateView):
     template_name = "core/index.html"
 
     def get(self, request):
-        # print(request.user.session())
-
         with request.user.session:
             try:
                 shopify_shop = shopify.Shop.current()
                 user_email = shopify_shop.email
             except UnauthorizedAccess as e:
                 user_email = str(e)
-        return self.render_to_response({"user_email": user_email})
+
+            context = {"user_email": user_email}
+        return self.render_to_response(context)
 
 
-class ProductsView(LoginRequiredMixin, generic.TemplateView):
-    template_name = "core/products.html"
+class ShopView(LoginRequiredMixin, generic.TemplateView):
+    template_name = "core/shop.html"
 
     def get(self, request):
         with request.user.session:
-            products = shopify.Product.find(limit=10)
-        return self.render_to_response({"products": products})
+            try:
+                shopify_shop = shopify.Shop.current()
+            except UnauthorizedAccess as e:
+                shopify_shop = str(e)
+
+            context = {"shopify_shop": shopify_shop}
+        return self.render_to_response(context)
 
 
 class CollectionsListView(LoginRequiredMixin, generic.TemplateView):
@@ -89,8 +94,12 @@ class CollectionsListView(LoginRequiredMixin, generic.TemplateView):
             smart_collections = shopify.SmartCollection.find()
 
         context = {
-            "custom_collections": [collection.to_dict() for collection in custom_collections],
-            "smart_collections": [collection.to_dict() for collection in smart_collections],
+            "custom_collections": [
+                collection.to_dict() for collection in custom_collections
+            ],
+            "smart_collections": [
+                collection.to_dict() for collection in smart_collections
+            ],
         }
 
         return self.render_to_response(context)

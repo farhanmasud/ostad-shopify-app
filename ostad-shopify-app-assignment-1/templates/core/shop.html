@@ -1,0 +1,48 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class="max-w-l mt-2 mb-5">
+    <div class="">
+        <h2 class="uppercase mb-4 ml-2 font-medium">Shop Details</h2>
+    
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500">
+                <tbody>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            Shop Name
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ shopify_shop.name }}
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            Shop ID
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ shopify_shop.id }}
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            Shop Email
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ shopify_shop.email }}
+                        </td>
+                    </tr>
+                    <tr class="bg-white border-b hover:bg-gray-50">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            Shop Owner
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ shopify_shop.shop_owner }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

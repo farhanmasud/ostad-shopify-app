@@ -7,7 +7,11 @@ DEBUG = True
 INSTALLED_APPS = (
     ["whitenoise.runserver_nostatic"]
     + INSTALLED_APPS
-    + ["debug_toolbar", "django_browser_reload", "django_extensions"]
+    + [
+        # "debug_toolbar",
+        "django_browser_reload",
+        "django_extensions",
+    ]
 )
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -18,7 +22,7 @@ EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 # middleware for django debug toolbar
 MIDDLEWARE += [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
