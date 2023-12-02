@@ -1,0 +1,47 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <main>
+        <div class="max-w-l mt-2 mb-5">
+            <div class="">
+                <div class="mb-2 ml-2 font-medium flex justify-between">
+                    <span class="uppercase my-auto">Products in <span class="font-bold">{{ collection.title }}</span> Collection</span>
+                    <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-white hover:text-gray-100 focus:outline-none bg-gray-900 rounded-lg border border-gray-200 hover:bg-gray-800 focus:z-10 focus:ring-4 focus:ring-white">Create New Product in Collection</a>
+                </div>
+            
+                <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <table class="w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">
+                                    Name
+                                </th>
+                                <th scope="col" class="px-6 py-3">
+                                    Description
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-right">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products_list %}
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        {{ product.title }}
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        {{ product.body_html|safe }}
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <a href="#" class="py-2 px-2 me-2 mb-2 text-sm font-medium text-gray-900 hover:text-gray-800 focus:outline-none bg-gray-200 rounded-lg border border-gray-200 hover:bg-gray-300 focus:z-10 focus:ring-4 focus:ring-white">Edit</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

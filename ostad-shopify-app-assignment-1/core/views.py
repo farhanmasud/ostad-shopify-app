@@ -3,14 +3,15 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.signals import user_logged_in
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
-from django.views import generic
+from django.views.generic import TemplateView, View
 from pyactiveresource.connection import UnauthorizedAccess
 from shopify_auth.session_tokens.views import get_scope_permission
 from accounts.models import Account
 
 
-class SplashPageView(generic.View):
+class SplashPageView(View):
     template_name = "core/splash.html"
 
     def get(self, request):
@@ -56,7 +57,7 @@ class SplashPageView(generic.View):
         )
 
 
-class HomeView(LoginRequiredMixin, generic.TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = "core/index.html"
 
     def get(self, request):
@@ -74,7 +75,7 @@ class HomeView(LoginRequiredMixin, generic.TemplateView):
         return self.render_to_response(context)
 
 
-class ShopView(LoginRequiredMixin, generic.TemplateView):
+class ShopView(LoginRequiredMixin, TemplateView):
     template_name = "core/shop.html"
 
     def get(self, request):
@@ -91,7 +92,7 @@ class ShopView(LoginRequiredMixin, generic.TemplateView):
         return self.render_to_response(context)
 
 
-class CollectionsListView(LoginRequiredMixin, generic.TemplateView):
+class CollectionsListView(LoginRequiredMixin, TemplateView):
     template_name = "core/collections_list.html"
 
     def get(self, request):
@@ -100,12 +101,32 @@ class CollectionsListView(LoginRequiredMixin, generic.TemplateView):
             smart_collections = shopify.SmartCollection.find()
 
         context = {
-            "custom_collections": [
-                collection.to_dict() for collection in custom_collections
-            ],
-            "smart_collections": [
-                collection.to_dict() for collection in smart_collections
-            ],
+            "custom_collections": custom_collections,
+            "smart_collections": smart_collections,
+            "menu_link": "collections",
+        }
+
+        return self.render_to_response(context)
+
+
+class CollectionProuctsListView(LoginRequiredMixin, TemplateView):
+    template_name = "core/collection_products_list.html"
+
+    def get(self, request, collection_type, collection_id):
+        with request.user.session:
+            if collection_type == "custom":
+                collection = shopify.CustomCollection.find(collection_id)
+            elif collection_type == "smart":
+                collection = shopify.SmartCollection.find(collection_id)
+            else:
+                raise PermissionDenied("Forbidden")
+
+            products_list = collection.products()
+
+        context = {
+            "collection": collection,
+            "products_list": products_list,
+            "collection_type": collection_type,
             "menu_link": "collections",
         }
 
