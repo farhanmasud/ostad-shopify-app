@@ -4,6 +4,8 @@ from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.signals import user_logged_in
 from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.messages import get_messages
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -137,10 +139,11 @@ class CollectionProuctsListView(LoginRequiredMixin, TemplateView):
         return self.render_to_response(context)
 
 
-class CollectionCreateView(LoginRequiredMixin, FormView):
+class CollectionCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     template_name = "core/collection_create.html"
     form_class = CollectionCreateForm
     success_url = reverse_lazy("core:collections_list")
+    success_message = "Collection added successfully!"
 
     def form_invalid(self, form):
         messages.error(self.request, "Please correct the erros")
@@ -164,7 +167,6 @@ class CollectionCreateView(LoginRequiredMixin, FormView):
                         "Clouldn't connect to Shopify API",
                         "core:collections_list",
                     )
-            messages.success(request, "Collection added successfully!")
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
