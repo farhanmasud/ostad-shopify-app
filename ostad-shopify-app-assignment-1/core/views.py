@@ -65,10 +65,10 @@ class HomeView(LoginRequiredMixin, generic.TemplateView):
         with request.user.session:
             try:
                 shopify_shop = shopify.Shop.current()
-                message = f"Hi {shopify_shop.email}"
+                user_email = shopify_shop.email
             except UnauthorizedAccess as e:
-                message = str(e)
-        return self.render_to_response({"title": message})
+                user_email = str(e)
+        return self.render_to_response({"user_email": user_email})
 
 
 class ProductsView(LoginRequiredMixin, generic.TemplateView):
