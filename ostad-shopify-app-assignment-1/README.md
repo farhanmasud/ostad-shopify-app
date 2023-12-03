@@ -13,17 +13,17 @@
 
 Features and Routes -
 
-1. `/shop/`
-2. `/collections/`
-3. `/collections/create/`
-4. `/collections/<collection_id>/`
-5. `/collections/<collection_id>/edit/`
-6. `/collections/<collection_id>/create-product/`
-7. `/collections/<collection_id>/<product_id>/edit/`
+1. `/shop/` - View shop details
+2. `/collections/` - List all collections
+3. `/collections/custom/create/` - Create new collection
+4. `/collections/collection_id/` - List view of products under collection
+5. `/collections/<collection_id>/edit/` - Edit collection
+6. `/product/create/<collection_id>/` - Create new product under a collection
+7. `/product/edit/<collection_id>/<product_id>/` - Edit product under a collection
 
 Getting started -
 
-1. Clone repo with your project name `git clone git@github.com:farhanmasud/django-shopify-app-starter-kit.git your-project-name`
+1. Clone repo with your project name `git clone git@github.com:farhanmasud/ostad-shopify-app.git your-project-name` anc change directory in your terminal to `./ostad-shopify-app-assignment-1`
 2. Setup .env file following the example env file
 3. Make all bash scripts executable with `find . -type f -iname "*.sh" -exec chmod +x {} \;`
 4. Run `bash update-git-remote.sh` script to remove existing git remote link (of this repo) and update with your on git repo link. Copy your remote URL from GitHub and run the bash script, it'll propmt to enter the new link, paste and hit Enter
