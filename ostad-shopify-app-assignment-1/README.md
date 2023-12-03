@@ -21,9 +21,10 @@ Features and Routes -
 6. `/product/create/<collection_id>/` - Create new product under a collection
 7. `/product/edit/<collection_id>/<product_id>/` - Edit product under a collection
 
-Demo video -
+[Demo video (click on this link or the thumbnail below to view)](https://www.youtube.com/watch?v=x9IAYSzjclY) -
 
-https://github.com/farhanmasud/ostad-shopify-app/assets/43474661/781305eb-3343-48ee-b27b-42e051b948a7
+[![Ostad Shopify App Assignment 1 Demo Video](https://img.youtube.com/vi/x9IAYSzjclY/0.jpg)](https://www.youtube.com/watch?v=x9IAYSzjclY)
+
 
 Getting started -
 
