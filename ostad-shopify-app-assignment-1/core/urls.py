@@ -29,4 +29,9 @@ urlpatterns = [
         views.ProductCreateView.as_view(),
         name="product_create",
     ),
+    path(
+        "product/edit/<int:collection_id>/<int:product_id>/",
+        views.ProductEditView.as_view(),
+        name="product_edit",
+    ),
 ]
