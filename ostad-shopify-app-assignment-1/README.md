@@ -21,6 +21,10 @@ Features and Routes -
 6. `/product/create/<collection_id>/` - Create new product under a collection
 7. `/product/edit/<collection_id>/<product_id>/` - Edit product under a collection
 
+Demo video -
+
+https://github.com/farhanmasud/ostad-shopify-app/assets/43474661/781305eb-3343-48ee-b27b-42e051b948a7
+
 Getting started -
 
 1. Clone repo with your project name `git clone git@github.com:farhanmasud/ostad-shopify-app.git your-project-name` anc change directory in your terminal to `./ostad-shopify-app-assignment-1`
