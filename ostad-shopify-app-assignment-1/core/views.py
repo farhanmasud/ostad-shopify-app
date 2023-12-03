@@ -133,6 +133,7 @@ class CollectionProuctsListView(LoginRequiredMixin, TemplateView):
             "collection": collection,
             "products_list": products_list,
             "collection_type": collection_type,
+            "collection": collection,
             "menu_link": "collections",
         }
 
@@ -217,6 +218,58 @@ class CollectionEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
                     "Clouldn't connect to Shopify API",
                     "core:collections_list",
                 )
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+class ProductCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+    template_name = "core/product_create.html"
+    form_class = CollectionCreateForm
+    success_message = "Collection added successfully!"
+
+    def get_success_url(self):
+        self.success_url = reverse_lazy(
+            "core:collection_products_list",
+            kwargs={
+                "collection_type": "custom",
+                "collection_id": self.kwargs["collection_id"],
+            },
+        )
+        return str(self.success_url)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Please correct the erros")
+        return self.render_to_response(self.get_context_data(form=form))
+
+    def get(self, request, collection_id):
+        context = self.get_context_data()
+        context["back_url"] = self.get_success_url()
+        return self.render_to_response(context)
+
+    def post(self, request, collection_id):
+        form = self.get_form()
+        if form.is_valid():
+            with request.user.session:
+                try:
+                    product = shopify.Product.create(
+                        {
+                            "title": form.cleaned_data["title"],
+                            "body_html": form.cleaned_data["description"],
+                        }
+                    )
+                    collection = shopify.CustomCollection.find(collection_id)
+                    collect = shopify.Collect(
+                        {"product_id": product.id, "collection_id": collection.id}
+                    )
+                    collect.save()
+                except Exception as e:
+                    print(str(e))
+                    show_error_message_and_redirect(
+                        request,
+                        "Clouldn't connect to Shopify API",
+                        "core:collections_list",
+                    )
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
