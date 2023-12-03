@@ -170,3 +170,53 @@ class CollectionCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
+
+
+class CollectionEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+    template_name = "core/collection_edit.html"
+    form_class = CollectionCreateForm
+    success_url = reverse_lazy("core:collections_list")
+    success_message = "Collected edited successfully!"
+
+    def get(self, request, custom_collection_id):
+        context = self.get_context_data()
+
+        try:
+            with request.user.session:
+                collection = shopify.CustomCollection.find(custom_collection_id)
+        except Exception as e:
+            print(str(e))
+            show_error_message_and_redirect(
+                request,
+                "Clouldn't connect to Shopify API",
+                "core:collections_list",
+            )
+
+        form = self.get_form()
+        form.fields["title"].initial = collection.title
+        form.fields["description"].initial = collection.body_html
+
+        context["form"] = form
+
+        return self.render_to_response(context)
+
+    def post(self, request, custom_collection_id):
+        form = self.get_form()
+
+        if form.is_valid():
+            try:
+                with request.user.session:
+                    collection = shopify.CustomCollection.find(custom_collection_id)
+                    collection.title = form.cleaned_data["title"]
+                    collection.body_html = form.cleaned_data["description"]
+                    collection.save()
+            except Exception as e:
+                print(str(e))
+                show_error_message_and_redirect(
+                    request,
+                    "Clouldn't connect to Shopify API",
+                    "core:collections_list",
+                )
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)

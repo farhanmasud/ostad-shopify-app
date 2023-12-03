@@ -19,4 +19,9 @@ urlpatterns = [
         views.CollectionCreateView.as_view(),
         name="collection_create",
     ),
+    path(
+        "collection/<int:custom_collection_id>/edit/",
+        views.CollectionEditView.as_view(),
+        name="collection_edit",
+    ),
 ]
