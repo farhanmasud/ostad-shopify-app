@@ -1,0 +1,22 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "ostad-translate-app"
+client_id = "f66deb9200703b91a58ccc9ad153f25d"
+application_url = "https://tops-sharp-mongrel.ngrok-free.app"
+embedded = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+use_legacy_install_flow = true
+
+[auth]
+redirect_urls = [ "https://tops-sharp-mongrel.ngrok-free.app/auth/finalize" ]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false
+
+[build]
+dev_store_url = "ostad-test-store-app-test.myshopify.com"

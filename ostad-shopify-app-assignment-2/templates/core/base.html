@@ -1,0 +1,41 @@
+{% load static %}
+{% load static tailwind_tags %}
+
+<html>
+<head>
+    <title>Wishlist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% tailwind_css %}
+
+    {{ data|json_script:"shopify-app-init" }}
+    <script type="module" src="{% static 'packages/build/index.js' %}"></script>
+</head>
+<body class="min-h-screen pt-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto shadow-md sm:rounded-lg bg-white">
+            <div class="py-4 px-4 sm:px-6 lg:px-8 text-base font-medium uppercase">
+                <a href="{% url 'core:home' %}" class="pr-8 {% if menu_link == 'home' %} text-gray-500 {% endif %} hover:underline">Home</a>
+                <a href="{% url 'core:shop' %}" class="pr-8 {% if menu_link == 'shop' %} text-gray-500 {% endif %} hover:underline">Shop</a>
+                <a href="{% url 'core:collections_list' %}" class="pr-8 {% if menu_link == 'collections' %} text-gray-500 {% endif %} hover:underline">Collections</a>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {% if messages %}
+        hola
+        <div class="py-2">
+            {% for message in messages %}
+                <div class="p-4 mb-4 text-sm {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} text-red-900 bg-red-100 {% else %} text-green-900 bg-green-100 {% endif %} rounded-lg" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <div class="py-5">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</body>
+</html>
