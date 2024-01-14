@@ -13,7 +13,7 @@
 
 Features and Routes -
 
-[Demo](./demo.mp4)
+[Demo](./demo.mp4) (Click on demo > view raw to download the demo video)
 
 Getting started -
 
