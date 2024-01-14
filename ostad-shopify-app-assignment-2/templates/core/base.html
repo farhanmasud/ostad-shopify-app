@@ -5,6 +5,8 @@
 <head>
     <title>Wishlist</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block page_style %}
+    {% endblock page_style %}
     {% tailwind_css %}
 
     {{ data|json_script:"shopify-app-init" }}
@@ -16,7 +18,8 @@
             <div class="py-4 px-4 sm:px-6 lg:px-8 text-base font-medium uppercase">
                 <a href="{% url 'core:home' %}" class="pr-8 {% if menu_link == 'home' %} text-gray-500 {% endif %} hover:underline">Home</a>
                 <a href="{% url 'core:shop' %}" class="pr-8 {% if menu_link == 'shop' %} text-gray-500 {% endif %} hover:underline">Shop</a>
-                <a href="{% url 'core:collections_list' %}" class="pr-8 {% if menu_link == 'collections' %} text-gray-500 {% endif %} hover:underline">Collections</a>
+                {% comment %} <a href="{% url 'core:collections_list' %}" class="pr-8 {% if menu_link == 'collections' %} text-gray-500 {% endif %} hover:underline">Collections</a> {% endcomment %}
+                <a href="{% url 'core:language_settings' %}" class="pr-8 {% if menu_link == 'language' %} text-gray-500 {% endif %} hover:underline">Language Settings</a>
             </div>
         </div>
     </div>

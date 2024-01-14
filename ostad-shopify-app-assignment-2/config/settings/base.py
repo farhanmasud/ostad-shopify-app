@@ -52,7 +52,8 @@ THIRD_PARTY_APPS = [
     "theme",
     "shopify_auth",
     "crispy_forms",
-    "crispy_tailwind",
+    "crispy_bootstrap4",
+    # "crispy_tailwind",
 ]
 
 LOCAL_APPS = [
@@ -218,5 +219,7 @@ LOGIN_REDIRECT_URL = "/"
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # crispy forms
-CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
-CRISPY_TEMPLATE_PACK = "tailwind"
+# CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+# CRISPY_TEMPLATE_PACK = "tailwind"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
+CRISPY_TEMPLATE_PACK = "bootstrap4"

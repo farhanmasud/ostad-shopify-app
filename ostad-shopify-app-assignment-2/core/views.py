@@ -13,7 +13,8 @@ from django.views.generic import TemplateView, View, FormView
 from pyactiveresource.connection import UnauthorizedAccess
 from shopify_auth.session_tokens.views import get_scope_permission
 from accounts.models import Account
-from .forms import CollectionCreateForm, ProductCreateForm
+from .forms import CollectionCreateForm, ProductCreateForm, LanguageChoiceForm
+from .models import LanguageChoice
 from .utils import show_error_message_and_redirect
 
 
@@ -95,213 +96,272 @@ class ShopView(LoginRequiredMixin, TemplateView):
                 "shopify_shop": shopify_shop,
                 "menu_link": "shop",
             }
-        return self.render_to_response(context)
+#         return self.render_to_response(context)
 
 
-class CollectionsListView(LoginRequiredMixin, TemplateView):
-    template_name = "core/collections_list.html"
+# class CollectionsListView(LoginRequiredMixin, TemplateView):
+#     template_name = "core/collections_list.html"
+
+#     def get(self, request):
+#         with request.user.session:
+#             custom_collections = shopify.CustomCollection.find()
+#             smart_collections = shopify.SmartCollection.find()
+
+#         context = {
+#             "custom_collections": custom_collections,
+#             "smart_collections": smart_collections,
+#             "menu_link": "collections",
+#         }
+
+#         return self.render_to_response(context)
+
+
+# class CollectionProuctsListView(LoginRequiredMixin, TemplateView):
+#     template_name = "core/collection_products_list.html"
+
+#     def get(self, request, collection_type, collection_id):
+#         with request.user.session:
+#             if collection_type == "custom":
+#                 collection = shopify.CustomCollection.find(collection_id)
+#             elif collection_type == "smart":
+#                 collection = shopify.SmartCollection.find(collection_id)
+#             else:
+#                 raise PermissionDenied("Forbidden")
+
+#             products_list = collection.products()
+
+#         context = {
+#             "collection": collection,
+#             "products_list": products_list,
+#             "collection_type": collection_type,
+#             "collection": collection,
+#             "menu_link": "collections",
+#         }
+
+#         return self.render_to_response(context)
+
+
+# class CollectionCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+#     template_name = "core/collection_create.html"
+#     form_class = CollectionCreateForm
+#     success_url = reverse_lazy("core:collections_list")
+#     success_message = "Collection added successfully!"
+
+#     def form_invalid(self, form):
+#         messages.error(self.request, "Please correct the erros")
+#         return self.render_to_response(self.get_context_data(form=form))
+
+#     def post(self, request):
+#         form = self.get_form()
+#         if form.is_valid():
+#             with request.user.session:
+#                 try:
+#                     shopify.CustomCollection.create(
+#                         {
+#                             "title": form.cleaned_data["title"],
+#                             "body_html": form.cleaned_data["description"],
+#                         }
+#                     )
+#                 except Exception as e:
+#                     print(str(e))
+#                     show_error_message_and_redirect(
+#                         request,
+#                         "Clouldn't connect to Shopify API",
+#                         "core:collections_list",
+#                     )
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+
+
+# class CollectionEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+#     template_name = "core/collection_edit.html"
+#     form_class = CollectionCreateForm
+#     success_url = reverse_lazy("core:collections_list")
+#     success_message = "Collected edited successfully!"
+
+#     def get(self, request, custom_collection_id):
+#         context = self.get_context_data()
+
+#         try:
+#             with request.user.session:
+#                 collection = shopify.CustomCollection.find(custom_collection_id)
+#         except Exception as e:
+#             print(str(e))
+#             show_error_message_and_redirect(
+#                 request,
+#                 "Clouldn't connect to Shopify API",
+#                 "core:collections_list",
+#             )
+
+#         form = self.get_form()
+#         form.fields["title"].initial = collection.title
+#         form.fields["description"].initial = collection.body_html
+
+#         context["form"] = form
+
+#         return self.render_to_response(context)
+
+#     def post(self, request, custom_collection_id):
+#         form = self.get_form()
+
+#         if form.is_valid():
+#             try:
+#                 with request.user.session:
+#                     collection = shopify.CustomCollection.find(custom_collection_id)
+#                     collection.title = form.cleaned_data["title"]
+#                     collection.body_html = form.cleaned_data["description"]
+#                     collection.save()
+#             except Exception as e:
+#                 print(str(e))
+#                 show_error_message_and_redirect(
+#                     request,
+#                     "Clouldn't connect to Shopify API",
+#                     "core:collections_list",
+#                 )
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+
+
+# class ProductCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+#     template_name = "core/product_create.html"
+#     form_class = ProductCreateForm
+#     success_message = "Product added successfully!"
+
+#     def get_success_url(self):
+#         self.success_url = reverse_lazy(
+#             "core:collection_products_list",
+#             kwargs={
+#                 "collection_type": "custom",
+#                 "collection_id": self.kwargs["collection_id"],
+#             },
+#         )
+#         return str(self.success_url)
+
+#     def form_invalid(self, form):
+#         messages.error(self.request, "Please correct the erros")
+#         return self.render_to_response(self.get_context_data(form=form))
+
+#     def get(self, request, collection_id):
+#         context = self.get_context_data()
+#         context["back_url"] = self.get_success_url()
+#         return self.render_to_response(context)
+
+#     def post(self, request, collection_id):
+#         form = self.get_form()
+#         if form.is_valid():
+#             with request.user.session:
+#                 try:
+#                     product = shopify.Product.create(
+#                         {
+#                             "title": form.cleaned_data["title"],
+#                             "body_html": form.cleaned_data["description"],
+#                         }
+#                     )
+#                     collection = shopify.CustomCollection.find(collection_id)
+#                     collect = shopify.Collect(
+#                         {"product_id": product.id, "collection_id": collection.id}
+#                     )
+#                     collect.save()
+#                 except Exception as e:
+#                     print(str(e))
+#                     show_error_message_and_redirect(
+#                         request,
+#                         "Clouldn't connect to Shopify API",
+#                         self.get_success_url(),
+#                     )
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+
+
+# class ProductEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+#     template_name = "core/product_edit.html"
+#     form_class = ProductCreateForm
+#     success_message = "Collection added successfully!"
+
+#     def get_success_url(self):
+#         self.success_url = reverse_lazy(
+#             "core:collection_products_list",
+#             kwargs={
+#                 "collection_type": "custom",
+#                 "collection_id": self.kwargs["collection_id"],
+#             },
+#         )
+#         return str(self.success_url)
+
+#     def form_invalid(self, form):
+#         messages.error(self.request, "Please correct the erros")
+#         return self.render_to_response(self.get_context_data(form=form))
+
+#     def get(self, request, collection_id, product_id):
+#         context = self.get_context_data()
+#         with request.user.session:
+#             try:
+#                 product = shopify.Product.find(product_id)
+#                 form = self.get_form()
+#                 form.fields["title"].initial = product.title
+#                 form.fields["description"].initial = product.body_html
+
+#                 context["form"] = form
+#             except Exception as e:
+#                 print(str(e))
+
+#         context["back_url"] = self.get_success_url()
+#         return self.render_to_response(context)
+
+#     def post(self, request, collection_id, product_id):
+#         form = self.get_form()
+#         if form.is_valid():
+#             with request.user.session:
+#                 try:
+#                     product = shopify.Product.find(product_id)
+#                     product.title = form.cleaned_data["title"]
+#                     product.body_html = form.cleaned_data["description"]
+#                     product.save()
+#                 except Exception as e:
+#                     print(str(e))
+#                     show_error_message_and_redirect(
+#                         request,
+#                         "Clouldn't connect to Shopify API",
+#                         self.get_success_url(),
+#                     )
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)
+
+
+class LanguageChoiceUpdateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+    template_name = "core/language_settings.html"
+    form_class = LanguageChoiceForm
+    success_message = "Language options updated successfully!"
+
+    def get_success_url(self):
+        self.success_url = reverse_lazy(
+            "core:home",
+        )
+        return str(self.success_url)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Please correct the erros")
+        return self.render_to_response(self.get_context_data(form=form))
 
     def get(self, request):
-        with request.user.session:
-            custom_collections = shopify.CustomCollection.find()
-            smart_collections = shopify.SmartCollection.find()
-
-        context = {
-            "custom_collections": custom_collections,
-            "smart_collections": smart_collections,
-            "menu_link": "collections",
-        }
-
-        return self.render_to_response(context)
-
-
-class CollectionProuctsListView(LoginRequiredMixin, TemplateView):
-    template_name = "core/collection_products_list.html"
-
-    def get(self, request, collection_type, collection_id):
-        with request.user.session:
-            if collection_type == "custom":
-                collection = shopify.CustomCollection.find(collection_id)
-            elif collection_type == "smart":
-                collection = shopify.SmartCollection.find(collection_id)
-            else:
-                raise PermissionDenied("Forbidden")
-
-            products_list = collection.products()
-
-        context = {
-            "collection": collection,
-            "products_list": products_list,
-            "collection_type": collection_type,
-            "collection": collection,
-            "menu_link": "collections",
-        }
-
-        return self.render_to_response(context)
-
-
-class CollectionCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    template_name = "core/collection_create.html"
-    form_class = CollectionCreateForm
-    success_url = reverse_lazy("core:collections_list")
-    success_message = "Collection added successfully!"
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Please correct the erros")
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def post(self, request):
-        form = self.get_form()
-        if form.is_valid():
-            with request.user.session:
-                try:
-                    shopify.CustomCollection.create(
-                        {
-                            "title": form.cleaned_data["title"],
-                            "body_html": form.cleaned_data["description"],
-                        }
-                    )
-                except Exception as e:
-                    print(str(e))
-                    show_error_message_and_redirect(
-                        request,
-                        "Clouldn't connect to Shopify API",
-                        "core:collections_list",
-                    )
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-class CollectionEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    template_name = "core/collection_edit.html"
-    form_class = CollectionCreateForm
-    success_url = reverse_lazy("core:collections_list")
-    success_message = "Collected edited successfully!"
-
-    def get(self, request, custom_collection_id):
-        context = self.get_context_data()
-
-        try:
-            with request.user.session:
-                collection = shopify.CustomCollection.find(custom_collection_id)
-        except Exception as e:
-            print(str(e))
-            show_error_message_and_redirect(
-                request,
-                "Clouldn't connect to Shopify API",
-                "core:collections_list",
-            )
-
-        form = self.get_form()
-        form.fields["title"].initial = collection.title
-        form.fields["description"].initial = collection.body_html
-
-        context["form"] = form
-
-        return self.render_to_response(context)
-
-    def post(self, request, custom_collection_id):
-        form = self.get_form()
-
-        if form.is_valid():
-            try:
-                with request.user.session:
-                    collection = shopify.CustomCollection.find(custom_collection_id)
-                    collection.title = form.cleaned_data["title"]
-                    collection.body_html = form.cleaned_data["description"]
-                    collection.save()
-            except Exception as e:
-                print(str(e))
-                show_error_message_and_redirect(
-                    request,
-                    "Clouldn't connect to Shopify API",
-                    "core:collections_list",
-                )
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-class ProductCreateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    template_name = "core/product_create.html"
-    form_class = ProductCreateForm
-    success_message = "Product added successfully!"
-
-    def get_success_url(self):
-        self.success_url = reverse_lazy(
-            "core:collection_products_list",
-            kwargs={
-                "collection_type": "custom",
-                "collection_id": self.kwargs["collection_id"],
-            },
-        )
-        return str(self.success_url)
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Please correct the erros")
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get(self, request, collection_id):
-        context = self.get_context_data()
-        context["back_url"] = self.get_success_url()
-        return self.render_to_response(context)
-
-    def post(self, request, collection_id):
-        form = self.get_form()
-        if form.is_valid():
-            with request.user.session:
-                try:
-                    product = shopify.Product.create(
-                        {
-                            "title": form.cleaned_data["title"],
-                            "body_html": form.cleaned_data["description"],
-                        }
-                    )
-                    collection = shopify.CustomCollection.find(collection_id)
-                    collect = shopify.Collect(
-                        {"product_id": product.id, "collection_id": collection.id}
-                    )
-                    collect.save()
-                except Exception as e:
-                    print(str(e))
-                    show_error_message_and_redirect(
-                        request,
-                        "Clouldn't connect to Shopify API",
-                        self.get_success_url(),
-                    )
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-
-class ProductEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    template_name = "core/product_edit.html"
-    form_class = ProductCreateForm
-    success_message = "Collection added successfully!"
-
-    def get_success_url(self):
-        self.success_url = reverse_lazy(
-            "core:collection_products_list",
-            kwargs={
-                "collection_type": "custom",
-                "collection_id": self.kwargs["collection_id"],
-            },
-        )
-        return str(self.success_url)
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Please correct the erros")
-        return self.render_to_response(self.get_context_data(form=form))
-
-    def get(self, request, collection_id, product_id):
         context = self.get_context_data()
         with request.user.session:
             try:
-                product = shopify.Product.find(product_id)
-                form = self.get_form()
-                form.fields["title"].initial = product.title
-                form.fields["description"].initial = product.body_html
+                try:
+                    instance = LanguageChoice.objects.get(shop=request.user)
+                except LanguageChoice.DoesNotExist:
+                    instance = None
+                
+                if instance:
+                    form_class = self.get_form_class()
+                    form = form_class(instance=instance)
+                else:
+                    form = self.get_form()
+                    form.fields["shop"].initial = request.user
 
                 context["form"] = form
             except Exception as e:
@@ -310,22 +370,44 @@ class ProductEditView(LoginRequiredMixin, SuccessMessageMixin, FormView):
         context["back_url"] = self.get_success_url()
         return self.render_to_response(context)
 
-    def post(self, request, collection_id, product_id):
+    def post(self, request):
         form = self.get_form()
         if form.is_valid():
+            instance = form.save()
             with request.user.session:
-                try:
-                    product = shopify.Product.find(product_id)
-                    product.title = form.cleaned_data["title"]
-                    product.body_html = form.cleaned_data["description"]
-                    product.save()
-                except Exception as e:
-                    print(str(e))
-                    show_error_message_and_redirect(
-                        request,
-                        "Clouldn't connect to Shopify API",
-                        self.get_success_url(),
-                    )
+                metafield_1 = shopify.Metafield(
+                    {
+                        'value_type': 'string',
+                        'namespace': 'translate-app',
+                        'value': ",".join([list(instance.translate_to.all().values_list("code", flat=True))]),
+                        'key': 'language-choices',
+                    }
+                )
+                metafield_1.save()
+
+                metafield_2 = shopify.Metafield(
+                    {
+                        'value_type': 'string',
+                        'namespace': 'translate-app',
+                        'value': instance.site_language,
+                        'key': 'site-language',
+                    }
+                )
+                metafield_2.save()
+
+            # with request.user.session:
+            #     try:
+            #         product = shopify.Product.find(product_id)
+            #         product.title = form.cleaned_data["title"]
+            #         product.body_html = form.cleaned_data["description"]
+            #         product.save()
+            #     except Exception as e:
+            #         print(str(e))
+            #         show_error_message_and_redirect(
+            #             request,
+            #             "Clouldn't connect to Shopify API",
+            #             self.get_success_url(),
+            #         )
             return self.form_valid(form)
         else:
             return self.form_invalid(form)

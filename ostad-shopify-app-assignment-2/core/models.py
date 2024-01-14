@@ -14,5 +14,8 @@ class Language(models.Model):
 
 class LanguageChoice(models.Model):
     shop = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    site_language = models.ForeignKey(Language, on_delete=models.DO_NOTHING)
+    site_language = models.ForeignKey(Language, on_delete=models.DO_NOTHING, related_name="sites_with_language")
     translate_to = models.ManyToManyField(Language)
+
+    def __str__(self):
+        return " - ".join([self.shop.myshopify_domain, self.site_language.name])
