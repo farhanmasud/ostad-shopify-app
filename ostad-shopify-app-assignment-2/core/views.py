@@ -332,82 +332,97 @@ class ShopView(LoginRequiredMixin, TemplateView):
 #             return self.form_invalid(form)
 
 
-class LanguageChoiceUpdateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    template_name = "core/language_settings.html"
-    form_class = LanguageChoiceForm
-    success_message = "Language options updated successfully!"
+# class LanguageChoiceUpdateView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+#     template_name = "core/language_settings.html"
+#     form_class = LanguageChoiceForm
+#     success_message = "Language options updated successfully!"
 
-    def get_success_url(self):
-        self.success_url = reverse_lazy(
-            "core:home",
-        )
-        return str(self.success_url)
+#     def get_success_url(self):
+#         self.success_url = reverse_lazy(
+#             "core:home",
+#         )
+#         return str(self.success_url)
+    
+#     def form_valid(self, form):
+#         try:
+#             prev_instance = LanguageChoice.objects.get(shop=self.request.user)
+#         except LanguageChoice.DoesNotExist:
+#             prev_instance = None
 
-    def form_invalid(self, form):
-        messages.error(self.request, "Please correct the erros")
-        return self.render_to_response(self.get_context_data(form=form))
+#         foo_form = self.form_class(form.cleaned_data, instance=prev_instance)
+#         foo_form.save()
+#         return self.render_to_response(self.get_context_data(form=form))
 
-    def get(self, request):
-        context = self.get_context_data()
-        with request.user.session:
-            try:
-                try:
-                    instance = LanguageChoice.objects.get(shop=request.user)
-                except LanguageChoice.DoesNotExist:
-                    instance = None
+#     def form_invalid(self, form):
+#         print("Form invalid")
+#         print(self.get_form().errors)
+#         messages.error(self.request, "Please correct the erros")
+#         return self.render_to_response(self.get_context_data(form=form))
+
+#     def get(self, request):
+#         context = self.get_context_data()
+#         with request.user.session:
+#             try:
+#                 try:
+#                     instance = LanguageChoice.objects.get(shop=request.user)
+#                 except LanguageChoice.DoesNotExist:
+#                     instance = None
                 
-                if instance:
-                    form_class = self.get_form_class()
-                    form = form_class(instance=instance)
-                else:
-                    form = self.get_form()
-                    form.fields["shop"].initial = request.user
+#                 if instance:
+#                     form_class = self.get_form_class()
+#                     form = form_class(instance=instance)
+#                 else:
+#                     form = self.get_form()
+#                     form.fields["shop"].initial = request.user
 
-                context["form"] = form
-            except Exception as e:
-                print(str(e))
+#                 context["form"] = form
+#             except Exception as e:
+#                 print(str(e))
 
-        context["back_url"] = self.get_success_url()
-        return self.render_to_response(context)
+#         context["back_url"] = self.get_success_url()
+#         return self.render_to_response(context)
 
-    def post(self, request):
-        form = self.get_form()
-        if form.is_valid():
-            instance = form.save()
-            with request.user.session:
-                metafield_1 = shopify.Metafield(
-                    {
-                        'value_type': 'string',
-                        'namespace': 'translate-app',
-                        'value': ",".join([list(instance.translate_to.all().values_list("code", flat=True))]),
-                        'key': 'language-choices',
-                    }
-                )
-                metafield_1.save()
+#     def post(self, request):
+        
+#         form = self.get_form()
+#         if form.is_valid():
+            
+#             instance = form.save()
+#             with request.user.session:
+#                 print(",".join(list(instance.translate_to.all().values_list("code", flat=True))))
+#                 metafield_1 = shopify.Metafield.create(
+#                     {
+#                         'value_type': 'string',
+#                         'namespace': 'translate-app',
+#                         'value': ",".join(list(instance.translate_to.all().values_list("code", flat=True))),
+#                         'key': 'language-choices',
+#                     }
+#                 )
+#                 metafield_1.save()
 
-                metafield_2 = shopify.Metafield(
-                    {
-                        'value_type': 'string',
-                        'namespace': 'translate-app',
-                        'value': instance.site_language,
-                        'key': 'site-language',
-                    }
-                )
-                metafield_2.save()
+#                 metafield_2 = shopify.Metafield.create(
+#                     {
+#                         'value_type': 'string',
+#                         'namespace': 'translate-app',
+#                         'value': instance.site_language.code,
+#                         'key': 'site-language',
+#                     }
+#                 )
+#                 metafield_2.save()
 
-            # with request.user.session:
-            #     try:
-            #         product = shopify.Product.find(product_id)
-            #         product.title = form.cleaned_data["title"]
-            #         product.body_html = form.cleaned_data["description"]
-            #         product.save()
-            #     except Exception as e:
-            #         print(str(e))
-            #         show_error_message_and_redirect(
-            #             request,
-            #             "Clouldn't connect to Shopify API",
-            #             self.get_success_url(),
-            #         )
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+#             # with request.user.session:
+#             #     try:
+#             #         product = shopify.Product.find(product_id)
+#             #         product.title = form.cleaned_data["title"]
+#             #         product.body_html = form.cleaned_data["description"]
+#             #         product.save()
+#             #     except Exception as e:
+#             #         print(str(e))
+#             #         show_error_message_and_redirect(
+#             #             request,
+#             #             "Clouldn't connect to Shopify API",
+#             #             self.get_success_url(),
+#             #         )
+#             return self.form_valid(form)
+#         else:
+#             return self.form_invalid(form)

@@ -19,7 +19,7 @@
                 <a href="{% url 'core:home' %}" class="pr-8 {% if menu_link == 'home' %} text-gray-500 {% endif %} hover:underline">Home</a>
                 <a href="{% url 'core:shop' %}" class="pr-8 {% if menu_link == 'shop' %} text-gray-500 {% endif %} hover:underline">Shop</a>
                 {% comment %} <a href="{% url 'core:collections_list' %}" class="pr-8 {% if menu_link == 'collections' %} text-gray-500 {% endif %} hover:underline">Collections</a> {% endcomment %}
-                <a href="{% url 'core:language_settings' %}" class="pr-8 {% if menu_link == 'language' %} text-gray-500 {% endif %} hover:underline">Language Settings</a>
+                {% comment %} <a href="{% url 'core:language_settings' %}" class="pr-8 {% if menu_link == 'language' %} text-gray-500 {% endif %} hover:underline">Language Settings</a> {% endcomment %}
             </div>
         </div>
     </div>

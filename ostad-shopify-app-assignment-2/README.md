@@ -1,4 +1,4 @@
-# Ostad Shopify App Assignment 1
+# Ostad Shopify App Assignment 2 (Translator app)
 
 - Uses [Django](https://www.djangoproject.com/) Server Side Rendering approach with the help of [Turbo](https://github.com/hotwired/turbo)
 - Uses a [fork](https://github.com/farhanmasud/django-shopify-auth) of [django-shopify-auth](https://github.com/discolabs/django-shopify-auth) with updated [Shopify App Bridge](https://shopify.dev/docs/api/app-bridge) and [Turbo](https://github.com/hotwired/turbo) versions for authentication using sessions
@@ -13,17 +13,11 @@
 
 Features and Routes -
 
-1. `/shop/` - View shop details
-2. `/collections/` - List all collections
-3. `/collections/custom/create/` - Create new collection
-4. `/collections/collection_id/` - List view of products under collection
-5. `/collections/<collection_id>/edit/` - Edit collection
-6. `/product/create/<collection_id>/` - Create new product under a collection
-7. `/product/edit/<collection_id>/<product_id>/` - Edit product under a collection
+[Demo](./demo.mp4)
 
 Getting started -
 
-1. Clone repo with your project name `git clone git@github.com:farhanmasud/ostad-shopify-app.git your-project-name` anc change directory in your terminal to `./ostad-shopify-app-assignment-1`
+1. Clone repo with your project name `git clone git@github.com:farhanmasud/ostad-shopify-app.git your-project-name` anc change directory in your terminal to `./ostad-shopify-app-assignment-2`
 2. Setup .env file following the example env file
 3. Make all bash scripts executable with `find . -type f -iname "*.sh" -exec chmod +x {} \;`
 4. Run `bash update-git-remote.sh` script to remove existing git remote link (of this repo) and update with your on git repo link. Copy your remote URL from GitHub and run the bash script, it'll propmt to enter the new link, paste and hit Enter
@@ -37,5 +31,6 @@ Getting started -
 12. Run the server using `python manage.py runserver`
 13. Run ngrok on port 8000
 14. Update your app URL on Shopify Partner Account > Your app with your ngrok URL and whitelist `your-ngrok-url/auth/finalize`
-15. Install app on your Shopify development store
+15. Navigate to `app-theme-extension` directory and run `npm install`
+16. Install app on your Shopify development store
 
